@@ -21,5 +21,9 @@
         <server name="APP_KEY" value="base64:B6p77gxBL17+chZG6N3wYCGW44q2ei1mJdxEvK7u81g=" />
         <env name="AZURE_OAUTH2_VALIDATOR_TENANT_ID" value=""/>
         <env name="AZURE_OAUTH2_VALIDATOR_VALID_AUD" value=""/>
+        <env name="TEST_TENANT_UUID" value=""/>
+        <env name="TEST_CLIENT_UUID" value=""/>
+        <env name="TEST_CLIENT_SECRET" value=""/>
+        <env name="TEST_CLIENT_SCOPE" value=""/>
     </php>
 </phpunit>
