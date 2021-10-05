@@ -16,7 +16,7 @@ class AzureClientCredentialMiddleware
     public function handle($request, Closure $next)
     {
         if (blank($request->bearerToken())) {
-            throw new UnauthorizedException('Token is not supplied', 403);
+            throw new UnauthorizedException('Token is not supplied', 401);
         }
 
         try {
