@@ -3,6 +3,7 @@
 namespace Yayasanvitka\AzureOauth2Validator;
 
 use StdClass;
+use Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException;
 use Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException;
 use Yayasanvitka\AzureOauth2Validator\Traits\AzureOAuth2ValidatorTrait;
 
@@ -40,7 +41,7 @@ class AzureOauth2ClientCredentialValidator
             list($this->header_enc, $this->claim_enc, $this->signature_enc) = explode('.', $token);
             $this->getClaim();
         } catch (\Exception $exception) {
-            throw new AzureTokenException('Invalid or Malformed Token', 'T_INV_TOKEN');
+            throw new AzureTokenException('Invalid or Malformed Token', 'T_INV_TOKEN', $exception);
         }
     }
 
@@ -54,12 +55,18 @@ class AzureOauth2ClientCredentialValidator
 
     /**
      * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
+     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
+     *
      * @return \StdClass
      */
     public function getClaim(): StdClass
     {
-        if (!isset($this->claim)) {
-            $this->claim = json_decode($this->base64_url_decode($this->claim_enc));
+        try {
+            if (!isset($this->claim)) {
+                $this->claim = json_decode($this->base64_url_decode($this->claim_enc));
+            }
+        } catch (\TypeError $exception) {
+            throw AzureOauth2ValidationException::invalidClaim();
         }
 
         if (!$this->claim instanceof StdClass) {
@@ -71,6 +78,7 @@ class AzureOauth2ClientCredentialValidator
 
     /**
      * @throws AzureTokenException
+     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
      *
      * @return string
      */
@@ -91,7 +99,13 @@ class AzureOauth2ClientCredentialValidator
     }
 
     /**
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     * @throws \Illuminate\Http\Client\RequestException
+     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
      * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
+     *
+     * @return bool
      */
     public function validate(): bool
     {
