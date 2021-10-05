@@ -160,5 +160,4 @@ class AzureOauth2ClientCredentialValidator
 
         return openssl_verify($this->header_enc.'.'.$this->claim_enc, $this->getSignature(), $certs, 'RSA-SHA256');
     }
-
 }

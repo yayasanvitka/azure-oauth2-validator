@@ -12,7 +12,6 @@ use Throwable;
  */
 class AzureTokenException extends \Exception
 {
-
     /**
      * @param string $message
      * @param string|null $code

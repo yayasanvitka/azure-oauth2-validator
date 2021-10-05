@@ -21,9 +21,11 @@ trait AzureOAuth2ValidatorTrait
         switch (strlen($arg) % 4) {
             case 2:
                 $arg .= '==';
+
                 break;
             case 3:
                 $arg .= '=';
+
                 break;
             default:
                 break;
