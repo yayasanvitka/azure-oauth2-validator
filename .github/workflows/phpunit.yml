@@ -1,0 +1,44 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  phpunit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      COMPOSER_NO_INTERACTION: 1
+      AZURE_OAUTH2_VALIDATOR_TENANT_ID: ${{ secrets.AZURE_OAUTH2_VALIDATOR_TENANT_ID }}
+      AZURE_OAUTH2_VALIDATOR_VALID_AUD: ${{ secrets.AZURE_OAUTH2_VALIDATOR_VALID_AUD }}
+      TEST_TENANT_UUID: ${{ secrets.TEST_TENANT_UUID }}
+      TEST_CLIENT_UUID: ${{ secrets.TEST_CLIENT_UUID }}
+      TEST_CLIENT_SECRET: ${{ secrets.TEST_CLIENT_SECRET }}
+      TEST_CLIENT_SCOPE: ${{ secrets.TEST_CLIENT_SCOPE }}
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: 8.0
+        coverage: xdebug
+        tools: composer:v2
+        extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite, bcmath, soap, intl, gd, exif
+
+    - name: Install dependencies
+      run: |
+        composer update --prefer-dist --no-progress
+
+    - name: Execute Unit Tests
+      run: vendor/bin/pest
+
+    - name: Creating codecov badge
+      uses: codecov/codecov-action@v2
+      with:
+        files: ./clover.xml
+        flags: phpunit-test
