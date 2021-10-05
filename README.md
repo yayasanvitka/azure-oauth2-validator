@@ -1,13 +1,13 @@
 # Azure OAuth 2 JWT Validator for Laravel
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 ![GitHub Workflow Status (event)](https://img.shields.io/github/workflow/status/yayasanvitka/azure-oauth2-validator/PHPUnit%20Tests)
-![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/yayasanvitka/azure-oauth2-validator)
-[![codecov](https://codecov.io/gh/yayasanvitka/azure-oauth2-validator/branch/master/graph/badge.svg?token=46XEANZJOT)](https://codecov.io/gh/yayasanvitka/azure-oauth2-validator)
+[![PHP Version](https://badgen.net/packagist/php/yayasanvitka/azure-oauth2-validator)](https://www.php.net/releases/8.0/en.php)
+[![Latest release](https://badgen.net/packagist/v/yayasanvitka/azure-oauth2-validator)](https://github.com/yayasanvitka/azure-oauth2-validator)
+[![codecov](https://badgen.net/codecov/c/github/yayasanvitka/azure-oauth2-validator?token=QQFKRA9YA8)](https://codecov.io/gh/yayasanvitka/azure-oauth2-validator)
 
 ## About
 
-This package does OAuth2 Client credentials grant with Microsoft Azure OAuth2 backend.
-Client Credentials Grant is used to authorize application when calling API on another application. For more information, please visit [Microsoft OAuth2 Client Credentials Grant Documentation](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-client-creds-grant-flow).
+This package does OAuth2 token validation. **For now, it only validates client credentials**. 
 
 ## Documentation, Installation, and Usage Instructions
 
