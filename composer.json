@@ -1,0 +1,46 @@
+{
+    "name": "yayasanvitka/azure-oauth2-validator",
+    "description": "Validates JWT from Azure OAuth2",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Adli I. Ifkar",
+            "email": "adly.shadowbane@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "PHP": "^8.0",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "guzzlehttp/guzzle": "^7.0",
+        "illuminate/support": "^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^6.20",
+        "phpunit/phpunit": "^9.5",
+        "friendsofphp/php-cs-fixer": "^3.1",
+        "pestphp/pest": "^1.20",
+        "pestphp/pest-plugin-parallel": "^0.3.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Yayasanvitka\\AzureOauth2Validator\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Yayasanvitka\\AzureOauth2Validator\\Test\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Yayasanvitka\\AzureOauth2Validator\\AzureOauth2ValidatorServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "php-cs-fixer": "./vendor/bin/php-cs-fixer fix --config=.php-cs.dist.php"
+    }
+}

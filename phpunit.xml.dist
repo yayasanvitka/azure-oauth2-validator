@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" backupGlobals="false" backupStaticAttributes="false"
+         bootstrap="vendor/autoload.php" colors="true" convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true" convertWarningsToExceptions="true" processIsolation="false"
+         stopOnFailure="false" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <testsuites>
+        <testsuite name="YV Azure Client Credentials">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+    <coverage cacheDirectory=".phpunit.cache/code-coverage" processUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src/</directory>
+        </include>
+        <report>
+            <clover outputFile="clover.xml" />
+        </report>
+    </coverage>
+    <php>
+        <server name="APP_ENV" value="testing"/>
+        <server name="APP_KEY" value="base64:B6p77gxBL17+chZG6N3wYCGW44q2ei1mJdxEvK7u81g=" />
+        <env name="CLIENT_CREDENTIALS_CACHE_TAG" value="jwt_client_credentials"/>
+        <env name="CLIENT_CREDENTIALS_TENANT_ID" value=""/>
+        <env name="CLIENT_CREDENTIALS_CLIENT_ID" value=""/>
+        <env name="CLIENT_CREDENTIALS_SECRET" value=""/>
+        <env name="CLIENT_CREDENTIALS_SCOPE" value="https://graph.microsoft.com/.default"/>
+    </php>
+</phpunit>
