@@ -69,10 +69,6 @@ class AzureOauth2ClientCredentialValidator
             throw AzureOauth2ValidationException::invalidClaim();
         }
 
-        if (!$this->claim instanceof StdClass) {
-            throw new AzureTokenException('Invalid Token', 'T_INV_TOKEN');
-        }
-
         return $this->claim;
     }
 
