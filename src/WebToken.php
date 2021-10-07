@@ -32,6 +32,7 @@ class WebToken
     public function validateUserToken(): bool
     {
         $tokenExpires = $this->getCurrentUserTokenExpiry();
+
         if ($tokenExpires <= now('Asia/Jakarta')) {
             $this->refresh();
         }
@@ -131,24 +132,6 @@ class WebToken
     }
 
     /**
-     * @param mixed $contents
-     *
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
-     *
-     * @return true
-     */
-    public function validateIDToken($contents): bool
-    {
-        $profile = json_decode(base64_decode(explode('.', $contents->id_token)[1]));
-
-        if ($profile->upn != $this->user->email || $profile->oid != $this->user->uuid) {
-            throw new AzureTokenException('Invalid Token');
-        }
-
-        return true;
-    }
-
-    /**
      * @throws \Illuminate\Http\Client\RequestException
      * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
      */
@@ -166,13 +149,12 @@ class WebToken
                 if (!blank($jsonError)) {
                     throw new AzureTokenException("[{$jsonError['error']}] {$jsonError['error_description']}", $jsonError['error_codes'][0], $e);
                 }
-            })->json();
+            })->object();
 
         if (empty($response->access_token) || empty($response->refresh_token)) {
             throw new AzureTokenException('Missing tokens in response contents', 500);
         }
 
-        $this->validateIDToken($response);
         $this->updateTokens($response);
     }
 
