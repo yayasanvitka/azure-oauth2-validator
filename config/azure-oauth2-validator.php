@@ -23,4 +23,28 @@ return [
     |
     */
     'valid_aud' => explode(',', env('AZURE_OAUTH2_VALIDATOR_VALID_AUD')) ?? [],
+
+    'web_token' => [
+
+        /*
+        |--------------------------------------------------------------------------
+        | Azure OAuth2 Web Token Client ID
+        |--------------------------------------------------------------------------
+        */
+        'client_id' => env('AZURE_OAUTH2_VALIDATOR_WEB_TOKEN_CLIENT_ID', null),
+
+        /*
+        |--------------------------------------------------------------------------
+        | Azure OAuth2 Web Token Client Secret
+        |--------------------------------------------------------------------------
+        */
+        'client_secret' => env('AZURE_OAUTH2_VALIDATOR_WEB_TOKEN_CLIENT_SECRET', null),
+
+        /*
+        |--------------------------------------------------------------------------
+        | Azure OAuth2 Web Token Resource
+        |--------------------------------------------------------------------------
+        */
+        'resource' => env('AZURE_OAUTH2_VALIDATOR_WEB_TOKEN_RESOURCE', 'https://graph.microsoft.com'),
+    ],
 ];

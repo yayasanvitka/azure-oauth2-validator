@@ -40,10 +40,14 @@ class AzureOauth2ValidatorServiceProvider extends ServiceProvider
      */
     protected function offerPublishing()
     {
-        if (function_exists('config_path')) {
+        if (function_exists('config_path') && function_exists('database_path')) {
             $this->publishes([
                 __DIR__.'/../config/azure-oauth2-validator.php' => config_path('azure-oauth2-validator.php'),
             ], 'config');
+
+            $this->publishes([
+                __DIR__.'/../database/migrations/create_user_web_tokens_table.php' => database_path('migrations/'.now()->format('Y_m_d_His_').'create_user_web_tokens_table.php'),
+            ], 'migrations');
         }
     }
 }
