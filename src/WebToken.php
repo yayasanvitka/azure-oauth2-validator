@@ -89,7 +89,7 @@ class WebToken
         $expires = empty(session('tokenExpires')) ? $this->getTokenExpiryFromDB() : session('tokenExpires');
 
         // format to carbon
-        if (is_int($expires)) {
+        if (!$expires instanceof Carbon) {
             $expires = Carbon::createFromTimestamp($expires, 'Asia/Jakarta');
         }
 
