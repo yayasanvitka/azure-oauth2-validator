@@ -118,7 +118,7 @@ class WebToken
     {
         $token = $this->getCurrentUserTokenFromDB();
 
-        return ($token instanceof AzureWebToken) ? $token->expires_at : null;
+        return ($token instanceof AzureWebToken) ? $token->refresh_token : null;
     }
 
     /**
