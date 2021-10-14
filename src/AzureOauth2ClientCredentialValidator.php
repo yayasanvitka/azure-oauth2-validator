@@ -24,6 +24,7 @@ class AzureOauth2ClientCredentialValidator
     /**
      * @param string $token
      * @param ?string $tenantId
+     * @param string|null $validAud
      * @param array $validAppIds
      * @param string $disk
      *
@@ -32,11 +33,16 @@ class AzureOauth2ClientCredentialValidator
     public function __construct(
         public string $token,
         public ?string $tenantId = null,
+        public ?array $validAud = [],
         public array $validAppIds = [],
         public string $disk = 'local',
     ) {
         if (blank($this->tenantId)) {
             $this->tenantId = config('azure-oauth2-validator.tenant_id');
+        }
+
+        if (blank($this->validAud)) {
+            $this->validAud = config('azure-oauth2-validator.valid_aud');
         }
 
         try {
@@ -56,7 +62,6 @@ class AzureOauth2ClientCredentialValidator
     }
 
     /**
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
      * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
      *
      * @return \StdClass
@@ -75,7 +80,6 @@ class AzureOauth2ClientCredentialValidator
     }
 
     /**
-     * @throws AzureTokenException
      * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
      *
      * @return string
@@ -123,7 +127,7 @@ class AzureOauth2ClientCredentialValidator
         }
 
         // validate Audience
-        if (!in_array($this->getAudience(), config('azure-oauth2-validator.valid_aud'))) {
+        if (!in_array($this->getAudience(), $this->validAud)) {
             throw new AzureTokenException('Invalid Audience', 'T_INV_AUD');
         }
 
@@ -137,7 +141,7 @@ class AzureOauth2ClientCredentialValidator
     }
 
     /**
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
+     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
      *
      * @return bool
      */
