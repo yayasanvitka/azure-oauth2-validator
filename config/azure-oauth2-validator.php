@@ -47,4 +47,24 @@ return [
         */
         'resource' => env('AZURE_OAUTH2_VALIDATOR_WEB_TOKEN_RESOURCE', 'https://graph.microsoft.com'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Validate AppID
+    |--------------------------------------------------------------------------
+    |
+    | If we need to validate appid, set this to true.
+    |
+    */
+    'validates_app_id' => env('AZURE_OAUTH2_VALIDATOR_VALIDATE_APPID', false),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Valid AppIDs
+    |--------------------------------------------------------------------------
+    |
+    | Set valid appid to make request to this server.
+    |
+    */
+    'valid_app_ids' => explode(',', env('AZURE_OAUTH2_VALIDATOR_VALID_APPIDS', null)),
 ];

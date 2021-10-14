@@ -24,6 +24,7 @@ class AzureOauth2ClientCredentialValidator
     /**
      * @param string $token
      * @param ?string $tenantId
+     * @param array $validAppIds
      * @param string $disk
      *
      * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
@@ -31,6 +32,7 @@ class AzureOauth2ClientCredentialValidator
     public function __construct(
         public string $token,
         public ?string $tenantId = null,
+        public array $validAppIds = [],
         public string $disk = 'local',
     ) {
         if (blank($this->tenantId)) {
@@ -123,6 +125,12 @@ class AzureOauth2ClientCredentialValidator
         // validate Audience
         if (!in_array($this->getAudience(), config('azure-oauth2-validator.valid_aud'))) {
             throw new AzureTokenException('Invalid Audience', 'T_INV_AUD');
+        }
+
+        if (config('azure-oauth2-validator.validates_app_id')) {
+            if (!in_array($this->getClaim()->appid, $this->validAppIds)) {
+                throw new AzureTokenException('Invalid Requestor AppID', 'T_INV_APPID');
+            }
         }
 
         return true;

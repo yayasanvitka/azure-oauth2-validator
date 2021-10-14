@@ -27,7 +27,7 @@ it('can validate the token', function () {
     $token = $this->getTokenForTesting();
 
     expect((new AzureOauth2ClientCredentialValidator(token: $token['access_token']))->validate())
-        ->toBeBool();
+        ->toBeTrue();
 })->group('client_credentials');
 
 it('throws an error when the tenant id does not match', function () {
@@ -53,4 +53,10 @@ it('throws an error when signature verification fails', function () {
     $mock = mock(AzureOauth2ClientCredentialValidator::class)->makePartial();
     $mock->shouldReceive('validateSign')->andReturnFalse();
     $mock->validate();
+})->throws(AzureTokenException::class)->group('client_credentials');
+
+it('throws an error when appid verification fails', function () {
+    $token = $this->getTokenForTesting();
+    config(['azure-oauth2-validator.validates_app_id' => true]);
+    (new AzureOauth2ClientCredentialValidator(token: $token['access_token']))->validate();
 })->throws(AzureTokenException::class)->group('client_credentials');
