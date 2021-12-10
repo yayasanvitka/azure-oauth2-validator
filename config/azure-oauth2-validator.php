@@ -22,7 +22,7 @@ return [
     | This value is usually the Client ID of your azure app registration.
     |
     */
-    'valid_aud' => explode(',', env('AZURE_OAUTH2_VALIDATOR_VALID_AUD')) ?? [],
+    'valid_aud' => explode(',', env('AZURE_OAUTH2_VALIDATOR_VALID_AUD', '')) ?? [],
 
     'web_token' => [
 
@@ -66,5 +66,5 @@ return [
     | Set valid appid to make request to this server.
     |
     */
-    'valid_app_ids' => explode(',', env('AZURE_OAUTH2_VALIDATOR_VALID_APPIDS', null)),
+    'valid_app_ids' => explode(',', env('AZURE_OAUTH2_VALIDATOR_VALID_APPIDS', '')),
 ];

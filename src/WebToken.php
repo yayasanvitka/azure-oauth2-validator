@@ -47,7 +47,7 @@ class WebToken
     {
         return $this->user->webTokens()
             ->where('revoked', false)
-            ->where('session_id', session()->getId())
+            ->where('ip_address', $this->ipAddress)
             ->latest()
             ->first();
     }
@@ -177,6 +177,19 @@ class WebToken
     }
 
     /**
+     * Revoke Old Tokens.
+     *
+     * @return void
+     */
+    public function revokeOldTokens(): void
+    {
+        $this->user->webTokens()
+            ->whereNotIn('session_id', [session()->getId()])
+            ->where('ip_address', $this->ipAddress)
+            ->update(['revoked' => 1]);
+    }
+
+    /**
      * Revoke stored tokens.
      */
     public function revokeAuthorizedUserTokens()
@@ -218,6 +231,7 @@ class WebToken
         ]);
 
         $this->storeAuthorizedUserTokens();
+        $this->revokeOldTokens();
     }
 
     /**
