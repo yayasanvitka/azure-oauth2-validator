@@ -26,10 +26,10 @@ class AzureWebToken extends Model
 
     protected $casts = [
         'revoked' => 'boolean',
+        'expires_at' => 'datetime',
     ];
 
     protected $dates = [
-        'expires_at',
         'created_at',
         'updated_at',
     ];
