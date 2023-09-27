@@ -2,7 +2,6 @@
 
 namespace Yayasanvitka\AzureOauth2Validator;
 
-use StdClass;
 use Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException;
 use Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException;
 use Yayasanvitka\AzureOauth2Validator\Traits\AzureOAuth2ValidatorTrait;
@@ -16,7 +15,7 @@ class AzureOauth2ClientCredentialValidator
 {
     use AzureOAuth2ValidatorTrait;
 
-    protected StdClass $claim;
+    protected \StdClass $claim;
     protected string $header_enc;
     protected string $claim_enc;
     protected string $signature_enc;
@@ -54,9 +53,9 @@ class AzureOauth2ClientCredentialValidator
     }
 
     /**
-     * @return StdClass|array
+     * @return \StdClass|array
      */
-    public function getHeader(): StdClass|array
+    public function getHeader(): \StdClass|array
     {
         return json_decode($this->base64_url_decode($this->header_enc));
     }
@@ -66,7 +65,7 @@ class AzureOauth2ClientCredentialValidator
      *
      * @return \StdClass
      */
-    public function getClaim(): StdClass
+    public function getClaim(): \StdClass
     {
         try {
             if (!isset($this->claim)) {

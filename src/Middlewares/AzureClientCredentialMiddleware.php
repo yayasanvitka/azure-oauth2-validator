@@ -2,7 +2,6 @@
 
 namespace Yayasanvitka\AzureOauth2Validator\Middlewares;
 
-use Closure;
 use Illuminate\Validation\UnauthorizedException;
 use Yayasanvitka\AzureOauth2Validator\AzureOauth2ClientCredentialValidator;
 
@@ -13,7 +12,7 @@ use Yayasanvitka\AzureOauth2Validator\AzureOauth2ClientCredentialValidator;
  */
 class AzureClientCredentialMiddleware
 {
-    public function handle($request, Closure $next)
+    public function handle($request, \Closure $next)
     {
         if (blank($request->bearerToken())) {
             throw new UnauthorizedException('Token is not supplied', 401);
