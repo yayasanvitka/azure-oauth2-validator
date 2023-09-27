@@ -2,6 +2,9 @@
 
 All notable changes will be documented here
 
+### 2.0.0
+- Support for laravel ^10.0
+
 ### 1.2.1
 - added `$validAud` as parameter to validate token audience
 
