@@ -10,11 +10,11 @@
         }
     ],
     "require": {
-        "PHP": "^8.0 || ^8.1",
+        "PHP": "^8.0 || ^8.1 || ^8.2",
         "ext-json": "*",
         "ext-openssl": "*",
         "guzzlehttp/guzzle": "^7.0",
-        "illuminate/support": "^8.0 || ^9.0 || ^10.0"
+        "illuminate/support": "^8.0 || ^9.0 || ^10.0 || ^11.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.20",
