@@ -25,7 +25,7 @@ class WebToken
 
     /**
      * @throws \Illuminate\Http\Client\RequestException
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
+     * @throws AzureTokenException
      *
      * @return true
      */
@@ -41,7 +41,7 @@ class WebToken
     }
 
     /**
-     * @return \Yayasanvitka\AzureOauth2Validator\Models\AzureWebToken|null
+     * @return AzureWebToken|null
      */
     private function getCurrentUserTokenFromDB(): ?AzureWebToken
     {
@@ -83,7 +83,7 @@ class WebToken
      * If it doesn't exist on session, get from database instead.
      * Should always return in \Carbon\Carbon format.
      *
-     * @return \Carbon\Carbon
+     * @return Carbon
      */
     public function getCurrentUserTokenExpiry(): Carbon
     {
@@ -122,7 +122,7 @@ class WebToken
     }
 
     /**
-     * @return \Carbon\Carbon|null
+     * @return Carbon|null
      */
     public function getTokenExpiryFromDB(): ?Carbon
     {
@@ -133,7 +133,7 @@ class WebToken
 
     /**
      * @throws \Illuminate\Http\Client\RequestException
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
+     * @throws AzureTokenException
      */
     public function refresh()
     {

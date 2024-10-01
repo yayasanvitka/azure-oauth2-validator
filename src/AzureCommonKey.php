@@ -21,10 +21,10 @@ class AzureCommonKey
      * @param string|null $tenantId
      * @param string $diskName
      *
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
+     * @throws AzureOauth2ValidationException
      */
     public function __construct(
-        string $tenantId = null,
+        ?string $tenantId = null,
         string $diskName = 'local',
     ) {
         if (blank($tenantId)) {

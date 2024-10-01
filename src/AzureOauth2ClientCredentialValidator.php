@@ -15,7 +15,7 @@ class AzureOauth2ClientCredentialValidator
 {
     use AzureOAuth2ValidatorTrait;
 
-    protected \StdClass $claim;
+    protected \stdClass $claim;
     protected string $header_enc;
     protected string $claim_enc;
     protected string $signature_enc;
@@ -27,7 +27,7 @@ class AzureOauth2ClientCredentialValidator
      * @param array $validAppIds
      * @param string $disk
      *
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
+     * @throws AzureTokenException
      */
     public function __construct(
         public string $token,
@@ -55,17 +55,17 @@ class AzureOauth2ClientCredentialValidator
     /**
      * @return \StdClass|array
      */
-    public function getHeader(): \StdClass|array
+    public function getHeader(): \stdClass|array
     {
         return json_decode($this->base64_url_decode($this->header_enc));
     }
 
     /**
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
+     * @throws AzureOauth2ValidationException
      *
      * @return \StdClass
      */
-    public function getClaim(): \StdClass
+    public function getClaim(): \stdClass
     {
         try {
             if (!isset($this->claim)) {
@@ -79,7 +79,7 @@ class AzureOauth2ClientCredentialValidator
     }
 
     /**
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
+     * @throws AzureOauth2ValidationException
      *
      * @return string
      */
@@ -103,8 +103,8 @@ class AzureOauth2ClientCredentialValidator
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Illuminate\Http\Client\RequestException
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureTokenException
+     * @throws AzureOauth2ValidationException
+     * @throws AzureTokenException
      *
      * @return bool
      */
@@ -140,7 +140,7 @@ class AzureOauth2ClientCredentialValidator
     }
 
     /**
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
+     * @throws AzureOauth2ValidationException
      *
      * @return bool
      */
@@ -160,7 +160,7 @@ class AzureOauth2ClientCredentialValidator
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      * @throws \Illuminate\Http\Client\RequestException
-     * @throws \Yayasanvitka\AzureOauth2Validator\Exceptions\AzureOauth2ValidationException
+     * @throws AzureOauth2ValidationException
      *
      * @return bool
      */
