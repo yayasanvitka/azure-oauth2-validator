@@ -48,7 +48,12 @@ class AzureCommonKey
      */
     public function getCertificateForValidation($keyIndex)
     {
-        $index = $this->getKeys($keyIndex);
+        $index = $this->getKeys($keyIndex, true);
+
+        if (!isset($index['x5c'][0])) {
+            throw new AzureOauth2ValidationException("Key with kid '{$keyIndex}' does not contain x5c certificate chain");
+        }
+
         $string_certText = "-----BEGIN CERTIFICATE-----\r\n".chunk_split($index['x5c'][0], 64)."-----END CERTIFICATE-----\r\n";
 
         return $this->getPublicKeyFromX5C($string_certText);
@@ -114,7 +119,7 @@ class AzureCommonKey
      *
      * @return array
      */
-    public function getKeys($keyIndex = null): array
+    public function getKeys($keyIndex = null, bool $allowRefresh = true): array
     {
         if ($this->disk->has('azure_common_key.json')) {
             $data = json_decode($this->disk->get('azure_common_key.json'), true);
@@ -122,7 +127,7 @@ class AzureCommonKey
             if (now()->diffInDays(Carbon::createFromTimestamp($timestamp)) > 0) {
                 $this->downloadKeys();
 
-                return $this->getKeys($keyIndex);
+                return $this->getKeys($keyIndex, $allowRefresh);
             }
 
             if (!empty($keyIndex)) {
@@ -131,6 +136,18 @@ class AzureCommonKey
                         return $val;
                     }
                 }
+
+                // Key not found in cache - try refreshing from Azure
+                if ($allowRefresh) {
+                    $this->downloadKeys();
+                    return $this->getKeys($keyIndex, false); // Prevent infinite loop
+                }
+
+                // Key still not found even after refresh - throw helpful error
+                $availableKids = array_map(fn($k) => $k['kid'], $data['keys']);
+                throw new AzureOauth2ValidationException(
+                    "Key with kid '{$keyIndex}' not found in Azure discovery keys. Available kids: " . implode(', ', $availableKids)
+                );
             }
 
             return $data['keys'];
@@ -138,6 +155,6 @@ class AzureCommonKey
 
         $this->downloadKeys();
 
-        return $this->getKeys($keyIndex);
+        return $this->getKeys($keyIndex, $allowRefresh);
     }
 }
