@@ -31,6 +31,10 @@ class WebToken
      */
     public function validateUserToken(): bool
     {
+        if (!$this->hasStoredToken()) {
+            throw new AzureTokenException('No stored token found, please re-authenticate', 401);
+        }
+
         $tokenExpires = $this->getCurrentUserTokenExpiry();
 
         if ($tokenExpires <= now('Asia/Jakarta')) {
@@ -41,7 +45,19 @@ class WebToken
     }
 
     /**
-     * @return \Yayasanvitka\AzureOauth2Validator\Models\AzureWebToken|null
+     * Check if user has a stored token (either in session or DB).
+     *
+     * @return bool
+     */
+    private function hasStoredToken(): bool
+    {
+        $expires = empty(session('tokenExpires')) ? $this->getTokenExpiryFromDB() : session('tokenExpires');
+
+        return !is_null($expires);
+    }
+
+    /**
+     * @return AzureWebToken|null
      */
     private function getCurrentUserTokenFromDB(): ?AzureWebToken
     {
